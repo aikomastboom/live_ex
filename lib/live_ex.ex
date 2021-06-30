@@ -48,6 +48,7 @@ defmodule LiveEx do
       end
 
       def subscribe(topic) do
+        :ok = Phoenix.PubSub.unsubscribe(unquote(pubsub_name), topic)
         Phoenix.PubSub.subscribe(unquote(pubsub_name), topic)
       end
 
