@@ -14,7 +14,7 @@ defmodule LiveEx do
     quote do
       require Logger
 
-      import Phoenix.LiveView, only: [assign: 3, assign_new: 3]
+      import Phoenix.Component, only: [assign: 3, assign_new: 3]
 
       @type socket :: Phoenix.LiveView.Socket.t()
 
