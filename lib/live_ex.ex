@@ -2,6 +2,11 @@ defmodule LiveEx do
   @moduledoc """
   Documentation for LiveEx.
   """
+  @doc "https://elixirforum.com/t/how-to-support-multiple-versions-of-a-package-with-moved-functions/51200/3"
+  defmacro from_version(app, version_match, opts) do
+    vsn = app |> Application.spec(:vsn) |> List.to_string()
+    if Version.match?(vsn, version_match), do: opts[:do], else: opts[:else]
+  end
 
   @type socket :: Phoenix.LiveView.Socket.t()
 
@@ -14,7 +19,11 @@ defmodule LiveEx do
     quote do
       require Logger
 
-      import Phoenix.LiveView, only: [assign: 3, assign_new: 3]
+      LiveEx.from_version :phoenix_live_view, "~> 0.18" do
+        import Phoenix.Component, only: [assign: 3, assign_new: 3]
+      else
+        import Phoenix.LiveView, only: [assign: 3, assign_new: 3]
+      end
 
       @type socket :: Phoenix.LiveView.Socket.t()
 
