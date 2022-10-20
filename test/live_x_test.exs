@@ -79,7 +79,7 @@ defmodule LiveExTest do
         payload: "test_payload"
       }
 
-      :ok = Example.dispatch(event.type, event.payload, socket)
+      :ok = Example.dispatch(self(), event.type, event.payload, socket)
       assert_received(^event)
       refute_receive(^event)
     end
